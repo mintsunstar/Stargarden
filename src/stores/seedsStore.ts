@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { getSeedById, pickDailySeed } from '../constants/seeds'
+import { getSeedById, pickDailySeed, SEED_IDS } from '../constants/seeds'
 import type { OhangType } from '../constants/strings'
 import type { SeedMaster } from '../constants/seeds'
 
@@ -59,7 +59,7 @@ export const useSeedsStore = create<SeedsState>()(
         return seed
       },
       grantWelcomeSeed: () => {
-        const master = getSeedById('b001')!
+        const master = getSeedById(SEED_IDS.woodNormal1)!
         const seed = toInventorySeed(master, 'welcome')
         set((s) => ({ inventory: [...s.inventory, seed] }))
         return seed

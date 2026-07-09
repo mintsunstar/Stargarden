@@ -1,3 +1,4 @@
+import { SEED_IDS } from '../constants/seeds'
 import { useAuthStore } from '../stores/authStore'
 import { useCollectionStore } from '../stores/collectionStore'
 import { useTutorialStore } from '../stores/tutorialStore'
@@ -17,7 +18,7 @@ export function seedDevSession(ohangType: OhangType = 'water') {
     {
       id: 'dev-plant-1',
       userSeedId: 'dev-useed-1',
-      seedId: 'b00f',
+      seedId: SEED_IDS.waterRare,
       slotIndex: 0,
       speciesName: '달빛수련',
       ohangType: 'water',
@@ -30,11 +31,12 @@ export function seedDevSession(ohangType: OhangType = 'water') {
       starlightDate: null,
       bloomedAt: hoursAgo(4),
       isSleeping: false,
+      sleptAt: null,
     },
     {
       id: 'dev-plant-2',
       userSeedId: 'dev-useed-2',
-      seedId: 'b001',
+      seedId: SEED_IDS.woodNormal1,
       slotIndex: 1,
       speciesName: '새싹풀',
       ohangType: 'wood',
@@ -47,11 +49,12 @@ export function seedDevSession(ohangType: OhangType = 'water') {
       starlightDate: new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Seoul' }),
       bloomedAt: null,
       isSleeping: false,
+      sleptAt: null,
     },
     {
       id: 'dev-plant-3',
       userSeedId: 'dev-useed-3',
-      seedId: 'b005',
+      seedId: SEED_IDS.fireNormal2,
       slotIndex: 4,
       speciesName: '노을꽃',
       ohangType: 'fire',
@@ -64,13 +67,14 @@ export function seedDevSession(ohangType: OhangType = 'water') {
       starlightDate: null,
       bloomedAt: null,
       isSleeping: false,
+      sleptAt: null,
     },
   ])
 
   useSeedsStore.getState().setInventory([
     {
       id: 'dev-seed-1',
-      seedId: 'b00d',
+      seedId: SEED_IDS.waterNormal1,
       speciesName: '물망초',
       ohangType: 'water',
       rarity: 'normal',
@@ -78,10 +82,9 @@ export function seedDevSession(ohangType: OhangType = 'water') {
       receivedAt: new Date().toISOString(),
     },
   ])
-  // 씨앗 수령 모달 테스트 가능하도록 미수령 상태
   useSeedsStore.setState({ hasReceivedToday: false, todaySeed: null })
 
-  useCollectionStore.getState().registerBloom('b00f', hoursAgo(4))
+  useCollectionStore.getState().registerBloom(SEED_IDS.waterRare, hoursAgo(4))
   useTutorialStore.getState().complete()
 }
 

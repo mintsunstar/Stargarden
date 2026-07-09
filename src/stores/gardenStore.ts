@@ -22,6 +22,7 @@ export interface GardenPlant {
   starlightDate: string | null
   bloomedAt: string | null
   isSleeping: boolean
+  sleptAt: string | null
 }
 
 export interface PlantingMode {
@@ -55,6 +56,8 @@ export function computePlantProgress(plant: GardenPlant, now = new Date()) {
     requiredHours: plant.requiredHours,
     careBonusHours: plant.careBonusHours,
     now,
+    isSleeping: plant.isSleeping,
+    sleptAt: plant.sleptAt,
   })
   const growthStage = plant.bloomedAt ? 2 : getGrowthStage(progress)
   return { progress, growthStage }
@@ -108,6 +111,7 @@ export const useGardenStore = create<GardenState>()(
           starlightDate: null,
           bloomedAt: null,
           isSleeping: false,
+          sleptAt: null,
         }
 
         useSeedsStore.getState().removeFromInventory(plantingMode.userSeedId)
@@ -136,9 +140,16 @@ export const useGardenStore = create<GardenState>()(
         }),
       setPendingBloom: (pendingBloomId) => set({ pendingBloomId }),
       applyGardenSleep: (sleeping) =>
-        set((s) => ({
-          plants: s.plants.map((p) => ({ ...p, isSleeping: sleeping })),
-        })),
+        set((s) => {
+          const sleptAt = sleeping ? new Date().toISOString() : null
+          return {
+            plants: s.plants.map((p) => ({
+              ...p,
+              isSleeping: sleeping,
+              sleptAt: sleeping ? sleptAt : null,
+            })),
+          }
+        }),
       toggleSound: () => set((s) => ({ isSoundOn: !s.isSoundOn })),
       reset: () => set(initialState),
     }),

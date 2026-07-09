@@ -11,7 +11,7 @@ create extension if not exists pgcrypto;
 create table profiles (
   user_id uuid primary key references auth.users(id) on delete cascade,
   display_name text,
-  birth_date date,
+  birth_date date,  -- nullable: 온보딩 전까지 null (004 트리거·complete-onboarding)
   birth_time_unknown boolean not null default true,
   birth_time text,
   is_lunar boolean not null default false,
